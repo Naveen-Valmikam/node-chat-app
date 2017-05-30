@@ -14,18 +14,17 @@ app.use(express.static(publicpath));
 io.on('connection',(socket)=>{
   console.log('New user connected');
 
-  socket.emit('newMessage',{
-    from:'john@sample.com',
-    text:'Testing node websocket',
-    createdAt: new Date()
-  });
-
   socket.on('disconnect',()=>{
     console.log('User disconnected');
   });
 
   socket.on('createMessage',(createMessage)=>{
     console.log('createMessage',createMessage);
+    io.emit('newMessage',{
+      from:createMessage.from,
+      text:createMessage.text,
+      createdAt:new Date().getTime()
+    });
   });
 });
 
