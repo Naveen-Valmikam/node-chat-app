@@ -20,11 +20,15 @@ app.use(express.static(publicpath));
         if(!isRealString(params.name) || !isRealString(params.room)){
           callback('Name and room name are required');
         }
+
+        socket.join(params.room);
+        socket.broadcast.to(params.room).emit('newMessage',generateMessage('Admin',`${params.name} has joined.`));
+        callback();
     });
 
     socket.on('createMessage',(message,callback)=>{
       io.emit('newMessage',generateMessage(message.from,message.text));
-      callback('This is from server');
+      callback();
       });
 
       socket.on('createLocationMessage',(coords)=>{

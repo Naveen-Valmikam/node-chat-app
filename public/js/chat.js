@@ -21,8 +21,8 @@ socket.on('connect',function(){
   var params = $.deparam(window.location.search);
 
   socket.emit('join',params,function(error){
-    if(err){
-      alert(err);
+    if(error){
+      alert(error);
       window.location.href='/';
     }else {
       console.log('No error');
